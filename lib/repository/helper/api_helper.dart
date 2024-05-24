@@ -15,8 +15,8 @@ class ApiHelper {
       var response = await http.post(url, body: body);
       log("Api Called => status code=${response.statusCode}");
       if (response.statusCode == 200) {
-        var decodedData = jsonDecode(response.body);
-        var data = {"status": 1, "data": "$decodedData"};
+        var decodedData = jsonDecode(jsonDecode(response.body));
+        var data = {"status": 1, "data": decodedData};
         return data;
       } else {
         log("Else Condition -> Api failed");

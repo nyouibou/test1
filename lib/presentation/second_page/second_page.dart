@@ -1,8 +1,8 @@
-
+import 'dart:convert';
+import 'dart:developer';
 
 import 'package:flutter/material.dart';
-
-
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:test_task/presentation/second_page/widget/refactor_textfield.dart';
 
 class HomeSreen extends StatefulWidget {
@@ -19,9 +19,30 @@ class _HomeSreenState extends State<HomeSreen> {
   var passwordController = TextEditingController();
   var addressController = TextEditingController();
   var detailsController = TextEditingController();
+  late SharedPreferences sharedPreferences;
+  var data;
+
+  getReceivedData() async {
+    sharedPreferences = await SharedPreferences.getInstance();
+    var storeData;
+    storeData = sharedPreferences.getString("userdata");
+    data = jsonDecode(storeData);
+    log("data -> ${data}");
+  }
+
+  @override
+  void initState() {
+    getReceivedData();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
+    fnameController.text = data["user"]["fname"];
+    lnameController.text=data["user"]["lname"];
+    phoneController.text=data["user"]["mobile"];
+    addressController.text=data["user"]["address"];
+    detailsController.text=data["user"]["detail"];
     return Scaffold(
       appBar: AppBar(
         leading: Icon(
@@ -76,17 +97,12 @@ class _HomeSreenState extends State<HomeSreen> {
                 ),
                 TextFormField(
                   controller: fnameController,
-                  decoration: InputDecoration(
-                      border: OutlineInputBorder(), hintText: "First Name"),
+                  decoration: InputDecoration(border: OutlineInputBorder(), hintText: "First Name"),
                 ),
-                RefactoredTextfield(
-                    controller: lnameController, name: "Last Name "),
-                RefactoredTextfield(
-                    controller: phoneController, name: "Mobile Number "),
-                RefactoredTextfield(
-                    controller: passwordController, name: "Password "),
-                RefactoredTextfield(
-                    controller: addressController, name: "Address"),
+                RefactoredTextfield(controller: lnameController, name: "Last Name "),
+                RefactoredTextfield(controller: phoneController, name: "Mobile Number "),
+                RefactoredTextfield(controller: passwordController, name: "Password "),
+                RefactoredTextfield(controller: addressController, name: "Address"),
                 RefactoredTextfield(
                   controller: detailsController,
                   name: "Detail",
