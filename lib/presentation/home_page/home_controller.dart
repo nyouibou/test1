@@ -18,12 +18,7 @@ class HomeController extends ChangeNotifier {
       if (value["status"] == 1) {
         var data = value["data"];
         storeReceivedData(data);
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-            builder: (context) => HomeSreen(),
-          ),
-        );
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => HomeScreen()));
         log("${value}");
       } else {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(

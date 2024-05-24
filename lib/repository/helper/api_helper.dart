@@ -8,14 +8,14 @@ class ApiHelper {
     Map<String, String>? header,
     required Map<String, dynamic> body,
   }) async {
-    log("Api-helper>postData");
+    log("Api-helper -> postData");
     log("$body");
     final url = Uri.parse("$endPoint");
     try {
       var response = await http.post(url, body: body);
-      log("Api Called => status code=${response.statusCode}");
+      log("Api Called -> status code=${response.statusCode}");
       if (response.statusCode == 200) {
-        var decodedData = jsonDecode(jsonDecode(response.body));
+        var decodedData = jsonDecode(response.body);
         var data = {"status": 1, "data": decodedData};
         return data;
       } else {
